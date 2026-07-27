@@ -11,7 +11,7 @@ const eacoGoals = [
 ];
 
 const eacoDims = [
-  {e:'Energy',a:'Attitude',c:'Cooperation',o:'Optimization',name:{zh:'官方定义',en:'Official',ja:'公式',ko:'공식',vi:'Chính thức',ms:'Rasmi',es:'Oficial',fr:'Officiel',ar:'رسمي',ru:'Официальное'}},
+  {e:'Energy',a:'Attitude',c:'Cooperation',o:'Optimization',name:{zh:'社区定义',en:'Community',ja:'コミュニティ',ko:'커뮤니티',vi:'Cộng đồng',ms:'Komuniti',es:'Comunidad',fr:'Communauté',ar:'المجتمع',ru:'Сообщество'}},
   {e:'Evolution',a:'Awareness',c:'Civilization',o:'Oneness',name:{zh:'哲学升级',en:'Philosophy',ja:'哲学',ko:'철학',vi:'Triết học',ms:'Falsafah',es:'Filosofía',fr:'Philosophie',ar:'فلسفة',ru:'Философия'}},
   {e:'Electron',a:'Atom',c:'Carbon',o:'Oxygen',name:{zh:'化学元素',en:'Chemistry',ja:'化学',ko:'화학',vi:'Hóa học',ms:'Kimia',es:'Química',fr:'Chimie',ar:'كيمياء',ru:'Химия'}},
   {e:'Emission',a:'Atmosphere',c:'Carbon',o:'Ozone',name:{zh:'气候科学',en:'Climate',ja:'気候',ko:'기후',vi:'Khí hậu',ms:'Iklim',es:'Clima',fr:'Climat',ar:'المناخ',ru:'Климат'}},
