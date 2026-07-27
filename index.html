@@ -1,0 +1,678 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>地球百科全书 | Earth Encyclopedia</title>
+<meta name="description" content="地球村百科全书——10种语言，覆盖地球科学、文明、生态、科技与未来">
+<style>
+:root{
+  --bg:#0a0e1a;--bg2:#0f1629;--card:#111827;--card2:#1a2235;
+  --border:#1e2d4a;--primary:#10b981;--primary2:#34d399;
+  --accent:#06b6d4;--accent2:#22d3ee;--gold:#f59e0b;--gold2:#fbbf24;
+  --text:#e2e8f0;--text2:#94a3b8;--text3:#64748b;
+  --font:'Segoe UI','PingFang SC','Microsoft YaHei','Noto Sans',sans-serif;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{font-family:var(--font);background:var(--bg);color:var(--text);line-height:1.7;overflow-x:hidden}
+
+/* ── Navbar ── */
+header{position:fixed;top:0;left:0;right:0;z-index:100;
+  background:rgba(10,14,26,0.92);backdrop-filter:blur(12px);
+  border-bottom:1px solid var(--border);padding:0 24px;
+  height:60px;display:flex;align-items:center;justify-content:space-between}
+.logo{font-size:1.3rem;font-weight:800;
+  background:linear-gradient(135deg,var(--primary),var(--accent));
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;letter-spacing:.05em}
+.logo span{font-size:.65rem;opacity:.6;display:block;letter-spacing:.12em}
+nav{display:flex;gap:4px;align-items:center;flex-wrap:wrap}
+nav a{color:var(--text2);text-decoration:none;font-size:.82rem;
+  padding:6px 12px;border-radius:8px;transition:all .2s;cursor:pointer}
+nav a:hover,nav a.active{background:var(--card2);color:var(--primary)}
+.lang-btns{display:flex;gap:4px;margin-left:12px;flex-wrap:wrap}
+.lang-btn{font-size:.7rem;padding:4px 8px;border-radius:6px;
+  border:1px solid var(--border);background:transparent;color:var(--text2);
+  cursor:pointer;transition:all .2s}
+.lang-btn:hover,.lang-btn.active{border-color:var(--primary);color:var(--primary);background:rgba(16,185,129,.08)}
+
+/* ── Hero ── */
+.hero{min-height:100vh;display:flex;flex-direction:column;
+  align-items:center;justify-content:center;text-align:center;
+  padding:80px 24px 60px;position:relative;
+  background:radial-gradient(ellipse 80% 60% at 50% -10%,rgba(6,182,212,.12) 0%,transparent 60%),
+             radial-gradient(ellipse 60% 40% at 80% 80%,rgba(16,185,129,.08) 0%,transparent 50%),
+             radial-gradient(ellipse 40% 30% at 20% 60%,rgba(245,158,11,.06) 0%,transparent 50%)}
+.hero-badge{display:inline-flex;align-items:center;gap:8px;
+  padding:6px 16px;border-radius:20px;border:1px solid var(--border);
+  background:rgba(16,185,129,.08);font-size:.8rem;color:var(--primary);margin-bottom:24px}
+.hero h1{font-size:clamp(2rem,5vw,4rem);font-weight:800;margin-bottom:16px;
+  background:linear-gradient(135deg,var(--primary) 0%,var(--accent) 50%,var(--gold) 100%);
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.hero p{font-size:clamp(.9rem,2vw,1.2rem);color:var(--text2);max-width:700px;margin-bottom:32px}
+.hero-stats{display:flex;gap:32px;flex-wrap:wrap;justify-content:center}
+.hero-stat{text-align:center}
+.hero-stat-num{font-size:2.2rem;font-weight:800;color:var(--primary)}
+.hero-stat-label{font-size:.78rem;color:var(--text3);text-transform:uppercase;letter-spacing:.1em}
+
+/* ── Earth globe visual ── */
+.earth-visual{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);
+  width:500px;height:500px;border-radius:50%;
+  background:radial-gradient(circle at 35% 35%,rgba(16,185,129,.15),rgba(6,182,212,.08) 40%,transparent 70%);
+  filter:blur(40px);pointer-events:none;z-index:0}
+.hero > *{position:relative;z-index:1}
+
+/* ── Sections ── */
+.section{max-width:1200px;margin:0 auto;padding:80px 24px}
+.section-header{text-align:center;margin-bottom:48px}
+.section-header h2{font-size:clamp(1.4rem,3vw,2rem);margin-bottom:8px;color:var(--text)}
+.section-header p{color:var(--text2);font-size:.95rem}
+
+/* ── Category Cards ── */
+.cat-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:20px}
+.cat-card{background:var(--card);border:1px solid var(--border);border-radius:16px;
+  padding:28px;transition:all .3s;position:relative;overflow:hidden}
+.cat-card:hover{border-color:var(--primary);transform:translateY(-4px);
+  box-shadow:0 12px 40px rgba(16,185,129,.1)}
+.cat-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;
+  background:linear-gradient(90deg,var(--primary),var(--accent));transform:scaleX(0);transform-origin:left;transition:transform .3s}
+.cat-card:hover::before{transform:scaleX(1)}
+.cat-icon{font-size:2rem;margin-bottom:12px}
+.cat-card h3{font-size:1.1rem;margin-bottom:8px;color:var(--text)}
+.cat-card p{font-size:.85rem;color:var(--text2);margin-bottom:12px}
+.cat-card .cat-articles{font-size:.75rem;color:var(--primary);font-weight:600}
+
+/* ── Article list ── */
+.article-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:16px}
+.article-card{background:var(--card);border:1px solid var(--border);border-radius:12px;
+  padding:20px;transition:all .2s;cursor:pointer}
+.article-card:hover{border-color:var(--accent);background:var(--card2)}
+.article-card .tag{display:inline-block;font-size:.68rem;padding:2px 8px;border-radius:4px;
+  background:rgba(6,182,212,.12);color:var(--accent2);margin-bottom:8px}
+.article-card h4{font-size:.95rem;color:var(--text);margin-bottom:6px}
+.article-card p{font-size:.8rem;color:var(--text2)}
+
+/* ── Language showcase ── */
+.lang-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:16px}
+.lang-card{background:var(--card);border:1px solid var(--border);border-radius:12px;
+  padding:20px;text-align:center;transition:all .2s}
+.lang-card:hover{border-color:var(--gold);transform:translateY(-2px)}
+.lang-flag{font-size:2rem;margin-bottom:8px}
+.lang-name{font-size:.95rem;font-weight:600;color:var(--text)}
+.lang-native{font-size:.8rem;color:var(--text2);margin-top:4px}
+.lang-speakers{font-size:.7rem;color:var(--text3);margin-top:6px}
+
+/* ── EACO letters showcase ── */
+.eaco-row{display:flex;justify-content:center;gap:24px;flex-wrap:wrap;margin:40px 0}
+.eaco-letter{width:100px;height:100px;border-radius:20px;display:flex;flex-direction:column;
+  align-items:center;justify-content:center;border:2px solid var(--border);
+  background:var(--card);transition:all .3s;cursor:pointer}
+.eaco-letter:hover{transform:scale(1.1) rotate(5deg)}
+.eaco-letter:nth-child(1){border-color:var(--primary);background:rgba(16,185,129,.08)}
+.eaco-letter:nth-child(2){border-color:var(--accent);background:rgba(6,182,212,.08)}
+.eaco-letter:nth-child(3){border-color:var(--gold);background:rgba(245,158,11,.08)}
+.eaco-letter:nth-child(4){border-color:#8b5cf6;background:rgba(139,92,246,.08)}
+.eaco-letter .letter{font-size:2.5rem;font-weight:800}
+.eaco-letter .word{font-size:.65rem;color:var(--text2);margin-top:4px;text-align:center}
+
+/* ── Timeline ── */
+.timeline{position:relative;max-width:800px;margin:0 auto;padding-left:32px}
+.timeline::before{content:'';position:absolute;left:8px;top:0;bottom:0;width:2px;
+  background:linear-gradient(180deg,var(--primary),var(--accent),var(--gold))}
+.timeline-item{position:relative;margin-bottom:32px}
+.timeline-item::before{content:'';position:absolute;left:-28px;top:6px;width:12px;height:12px;
+  border-radius:50%;background:var(--primary);border:2px solid var(--bg)}
+.timeline-item .time{font-size:.75rem;color:var(--primary);font-weight:600}
+.timeline-item h4{font-size:1rem;margin:4px 0}
+.timeline-item p{font-size:.85rem;color:var(--text2)}
+
+/* ── Footer ── */
+footer{background:var(--bg2);border-top:1px solid var(--border);padding:48px 24px 24px;margin-top:60px}
+.footer-content{max-width:1200px;margin:0 auto;display:grid;
+  grid-template-columns:1fr 1fr 1fr;gap:32px}
+.footer-col h4{font-size:.9rem;color:var(--text);margin-bottom:12px}
+.footer-col a{display:block;font-size:.8rem;color:var(--text2);text-decoration:none;
+  margin-bottom:6px;transition:color .2s}
+.footer-col a:hover{color:var(--primary)}
+.footer-bottom{text-align:center;margin-top:32px;padding-top:20px;border-top:1px solid var(--border)}
+.footer-bottom p{font-size:.75rem;color:var(--text3)}
+
+/* ── EACO footer link ── */
+.eaco-footer{text-align:center;padding:24px;background:linear-gradient(135deg,rgba(16,185,129,.06),rgba(6,182,212,.06));
+  border-top:1px solid var(--border)}
+.eaco-footer a{display:inline-flex;align-items:center;gap:8px;padding:12px 32px;
+  border-radius:12px;border:2px solid var(--primary);
+  background:rgba(16,185,129,.08);color:var(--primary);text-decoration:none;
+  font-size:1.1rem;font-weight:700;transition:all .3s;letter-spacing:.05em}
+.eaco-footer a:hover{background:var(--primary);color:var(--bg);transform:scale(1.05)}
+.eaco-footer .eaco-sub{font-size:.75rem;color:var(--text3);margin-top:8px}
+
+/* ── Responsive ── */
+@media(max-width:768px){
+  header{padding:0 12px;flex-wrap:wrap;height:auto;min-height:60px}
+  nav{gap:2px}
+  nav a{font-size:.75rem;padding:4px 8px}
+  .lang-btns{margin-left:0;margin-top:4px}
+  .footer-content{grid-template-columns:1fr}
+  .hero-stats{gap:16px}
+  .eaco-row{gap:12px}
+  .eaco-letter{width:75px;height:75px}
+  .eaco-letter .letter{font-size:1.8rem}
+}
+
+/* ── Fade in animation ── */
+.fade-in{opacity:0;transform:translateY(20px);transition:all .6s}
+.fade-in.visible{opacity:1;transform:translateY(0)}
+
+/* ── Search ── */
+.search-bar{max-width:500px;margin:0 auto 32px;display:flex;gap:8px}
+.search-bar input{flex:1;padding:10px 16px;border-radius:10px;
+  border:1px solid var(--border);background:var(--card);color:var(--text);font-size:.9rem}
+.search-bar input:focus{outline:none;border-color:var(--primary)}
+.search-bar input::placeholder{color:var(--text3)}
+</style>
+</head>
+<body>
+
+<!-- ====== NAVBAR ====== -->
+<header>
+  <div class="logo" onclick="scrollToSection('hero')">EE<span>EARTH ENCYCLOPEDIA</span></div>
+  <nav>
+    <a class="active" data-section="hero" onclick="scrollToSection('hero')" id="nav-home">Home</a>
+    <a data-section="categories" onclick="scrollToSection('categories')" id="nav-cats">Categories</a>
+    <a data-section="languages" onclick="scrollToSection('languages')" id="nav-langs">Languages</a>
+    <a data-section="eaco-meaning" onclick="scrollToSection('eaco-meaning')" id="nav-eaco">EACO</a>
+    <a data-section="timeline" onclick="scrollToSection('timeline')" id="nav-timeline">Timeline</a>
+    <div class="lang-btns">
+      <button class="lang-btn active" onclick="setLang('zh')">中文</button>
+      <button class="lang-btn" onclick="setLang('en')">EN</button>
+      <button class="lang-btn" onclick="setLang('ja')">日本語</button>
+      <button class="lang-btn" onclick="setLang('ko')">한국어</button>
+      <button class="lang-btn" onclick="setLang('vi')">Vi</button>
+      <button class="lang-btn" onclick="setLang('ms')">MS</button>
+      <button class="lang-btn" onclick="setLang('es')">ES</button>
+      <button class="lang-btn" onclick="setLang('fr')">FR</button>
+      <button class="lang-btn" onclick="setLang('ar')">عرب</button>
+      <button class="lang-btn" onclick="setLang('ru')">RU</button>
+    </div>
+  </nav>
+</header>
+
+<!-- ====== HERO ====== -->
+<section class="hero" id="hero">
+  <div class="earth-visual"></div>
+  <div class="hero-badge" id="hero-badge">🌍 Earth Encyclopedia</div>
+  <h1 id="hero-title">地球百科全书</h1>
+  <p id="hero-desc">10种语言 · 覆盖地球科学、文明、生态、科技与未来 — 地球村的知识图谱</p>
+  <div class="hero-stats">
+    <div class="hero-stat"><div class="hero-stat-num">10</div><div class="hero-stat-label" id="stat-lang">Languages</div></div>
+    <div class="hero-stat"><div class="hero-stat-num">8</div><div class="hero-stat-label" id="stat-cat">Categories</div></div>
+    <div class="hero-stat"><div class="hero-stat-num">28+</div><div class="hero-stat-label" id="stat-dim">Dimensions</div></div>
+    <div class="hero-stat"><div class="hero-stat-num">∞</div><div class="hero-stat-label" id="stat-knowledge">Knowledge</div></div>
+  </div>
+</section>
+
+<!-- ====== CATEGORIES ====== -->
+<section class="section" id="categories">
+  <div class="section-header">
+    <h2 id="cat-title">地球知识八大领域</h2>
+    <p id="cat-desc">从粒子到宇宙，从远古到未来 — 地球文明的完整知识图谱</p>
+  </div>
+  <div class="search-bar">
+    <input type="text" id="search-input" placeholder="Search knowledge..." oninput="handleSearch(this.value)">
+  </div>
+  <div class="cat-grid" id="cat-grid"></div>
+</section>
+
+<!-- ====== EACO MEANING SHOWCASE ====== -->
+<section class="section" id="eaco-meaning">
+  <div class="section-header">
+    <h2 id="eaco-title">EACO · 四个字母，一部地球百科</h2>
+    <p id="eaco-desc">EACO 的四个字母横跨物理、生物、音乐、气候、哲学、数学等 28 个领域</p>
+  </div>
+  <div class="eaco-row">
+    <div class="eaco-letter"><div class="letter">E</div><div class="word" id="eaco-e">Energy</div></div>
+    <div class="eaco-letter"><div class="letter">A</div><div class="word" id="eaco-a">Attitude</div></div>
+    <div class="eaco-letter"><div class="letter">C</div><div class="word" id="eaco-c">Cooperation</div></div>
+    <div class="eaco-letter"><div class="letter">O</div><div class="word" id="eaco-o">Optimization</div></div>
+  </div>
+  <div class="cat-grid" id="eaco-dim-grid"></div>
+</section>
+
+<!-- ====== LANGUAGES ====== -->
+<section class="section" id="languages">
+  <div class="section-header">
+    <h2 id="lang-title">地球村十大语言</h2>
+    <p id="lang-desc">覆盖全球超过 70% 人口的通用语言 — 知识无国界</p>
+  </div>
+  <div class="lang-grid" id="lang-grid"></div>
+</section>
+
+<!-- ====== TIMELINE ====== -->
+<section class="section" id="timeline">
+  <div class="section-header">
+    <h2 id="tl-title">地球文明时间线</h2>
+    <p id="tl-desc">从 46 亿年前到未来文明 — 地球的宏大叙事</p>
+  </div>
+  <div class="timeline" id="timeline-content"></div>
+</section>
+
+<!-- ====== EACO FOOTER LINK ====== -->
+<div class="eaco-footer">
+  <a href="eaco.html" id="eaco-link-btn">🌍 EACO — Earth's Best Coin</a>
+  <div class="eaco-sub" id="eaco-link-sub">点击了解 EACO 地球代币 · Click to learn about EACO</div>
+</div>
+
+<!-- ====== FOOTER ====== -->
+<footer>
+  <div class="footer-content">
+    <div class="footer-col">
+      <h4 id="footer-about">关于</h4>
+      <a href="#hero" id="footer-about-1">地球百科全书</a>
+      <a href="eaco.html">EACO 地球代币</a>
+      <a href="#categories" id="footer-about-2">知识分类</a>
+    </div>
+    <div class="footer-col">
+      <h4 id="footer-resources">资源</h4>
+      <a href="#languages" id="footer-res-1">十大语言</a>
+      <a href="#eaco-meaning" id="footer-res-2">EACO 多维含义</a>
+      <a href="#timeline" id="footer-res-3">文明时间线</a>
+    </div>
+    <div class="footer-col">
+      <h4 id="footer-links">链接</h4>
+      <a href="https://linktr.ee/eacocc" target="_blank">EACO Linktree</a>
+      <a href="https://x.com/eacocc" target="_blank">EACO Twitter/X</a>
+      <a href="https://eaco-build-world.base44.app/" target="_blank">EACO Platform</a>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <p>&copy; 2026 Earth Encyclopedia · EACO Earth's Best Coin · SOL Chain</p>
+    <p style="margin-top:4px;color:var(--text2)">CA: DqfoyZH96RnvZusSp3Cdncjpyp3C74ZmJzGhjmHnDHRH</p>
+  </div>
+</footer>
+
+<script>
+// ====== I18N DATA ======
+const i18n = {
+  zh:{
+    'hero-badge':'🌍 地球百科全书','hero-title':'地球百科全书',
+    'hero-desc':'10种语言 · 覆盖地球科学、文明、生态、科技与未来 — 地球村的知识图谱',
+    'stat-lang':'语言','stat-cat':'领域','stat-dim':'维度','stat-knowledge':'知识',
+    'nav-home':'首页','nav-cats':'分类','nav-langs':'语言','nav-eaco':'EACO','nav-timeline':'时间线',
+    'cat-title':'地球知识八大领域','cat-desc':'从粒子到宇宙，从远古到未来 — 地球文明的完整知识图谱',
+    'eaco-title':'EACO · 四个字母，一部地球百科','eaco-desc':'EACO 的四个字母横跨物理、生物、音乐、气候、哲学、数学等 28 个领域',
+    'lang-title':'地球村十大语言','lang-desc':'覆盖全球超过 70% 人口的通用语言 — 知识无国界',
+    'tl-title':'地球文明时间线','tl-desc':'从 46 亿年前到未来文明 — 地球的宏大叙事',
+    'footer-about':'关于','footer-about-1':'地球百科全书','footer-about-2':'知识分类',
+    'footer-resources':'资源','footer-res-1':'十大语言','footer-res-2':'EACO 多维含义','footer-res-3':'文明时间线',
+    'footer-links':'链接','eaco-link-sub':'点击了解 EACO 地球代币 · Click to learn about EACO',
+    'search-placeholder':'搜索知识...'
+  },
+  en:{
+    'hero-badge':'🌍 Earth Encyclopedia','hero-title':'Earth Encyclopedia',
+    'hero-desc':'10 languages · Covering Earth science, civilization, ecology, technology & future — Knowledge graph of the global village',
+    'stat-lang':'Languages','stat-cat':'Categories','stat-dim':'Dimensions','stat-knowledge':'Knowledge',
+    'nav-home':'Home','nav-cats':'Categories','nav-langs':'Languages','nav-eaco':'EACO','nav-timeline':'Timeline',
+    'cat-title':'Eight Knowledge Domains of Earth','cat-desc':'From particles to cosmos, from ancient past to future — Complete knowledge graph of Earth civilization',
+    'eaco-title':'EACO · Four Letters, An Encyclopedia of Earth','eaco-desc':'The four letters of EACO span physics, biology, music, climate, philosophy, mathematics and 28+ dimensions',
+    'lang-title':'Top 10 Languages of the Global Village','lang-desc':'Covering over 70% of the global population — Knowledge without borders',
+    'tl-title':'Earth Civilization Timeline','tl-desc':'From 4.6 billion years ago to future civilization — The grand narrative of Earth',
+    'footer-about':'About','footer-about-1':'Earth Encyclopedia','footer-about-2':'Categories',
+    'footer-resources':'Resources','footer-res-1':'Top 10 Languages','footer-res-2':'EACO Dimensions','footer-res-3':'Timeline',
+    'footer-links':'Links','eaco-link-sub':'Click to learn about EACO Earth Coin',
+    'search-placeholder':'Search knowledge...'
+  },
+  ja:{
+    'hero-badge':'🌍 地球百科事典','hero-title':'地球百科事典',
+    'hero-desc':'10言語 · 地球科学・文明・生態・テクノロジー・未来をカバー — 地球村の知識グラフ',
+    'stat-lang':'言語','stat-cat':'分野','stat-dim':'次元','stat-knowledge':'知識',
+    'nav-home':'ホーム','nav-cats':'カテゴリ','nav-langs':'言語','nav-eaco':'EACO','nav-timeline':'年表',
+    'cat-title':'地球知識の8大分野','cat-desc':'粒子から宇宙まで、古代から未来まで — 地球文明の完全な知識グラフ',
+    'eaco-title':'EACO · 4つの文字、地球の百科事典','eaco-desc':'EACOの4文字は物理・生物・音楽・気候・哲学・数学など28の分野にまたがる',
+    'lang-title':'地球村の10大言語','lang-desc':'世界人口の70%以上をカバー — 国境なき知識',
+    'tl-title':'地球文明タイムライン','tl-desc':'46億年前から未来文明まで — 地球の壮大な物語',
+    'footer-about':'概要','footer-about-1':'地球百科事典','footer-about-2':'カテゴリ',
+    'footer-resources':'リソース','footer-res-1':'10大言語','footer-res-2':'EACOの多次元','footer-res-3':'タイムライン',
+    'footer-links':'リンク','eaco-link-sub':'EACO地球コインについて詳しく見る',
+    'search-placeholder':'知識を検索...'
+  },
+  ko:{
+    'hero-badge':'🌍 지구 백과사전','hero-title':'지구 백과사전',
+    'hero-desc':'10개 언어 · 지구 과학, 문명, 생태, 기술 및 미래 포괄 — 지구촌의 지식 그래프',
+    'stat-lang':'언어','stat-cat':'분야','stat-dim':'차원','stat-knowledge':'지식',
+    'nav-home':'홈','nav-cats':'카테고리','nav-langs':'언어','nav-eaco':'EACO','nav-timeline':'연표',
+    'cat-title':'지구 지식 8대 분야','cat-desc':'입자에서 우주까지, 고대에서 미래까지 — 지구 문명의 완전한 지식 그래프',
+    'eaco-title':'EACO · 네 글자, 지구 백과사전','eaco-desc':'EACO의 네 글자는 물리, 생물, 음악, 기후, 철학, 수학 등 28개 분야를 아우른다',
+    'lang-title':'지구촌 10대 언어','lang-desc':'전 세계 인구의 70% 이상 커버 — 국경 없는 지식',
+    'tl-title':'지구 문명 타임라인','tl-desc':'46억 년 전에서 미래 문명까지 — 지구의 웅장한 서사',
+    'footer-about':'소개','footer-about-1':'지구 백과사전','footer-about-2':'카테고리',
+    'footer-resources':'자원','footer-res-1':'10대 언어','footer-res-2':'EACO 다차원','footer-res-3':'타임라인',
+    'footer-links':'링크','eaco-link-sub':'EACO 지구 코인 알아보기',
+    'search-placeholder':'지식 검색...'
+  },
+  vi:{
+    'hero-badge':'🌍 Bách khoa Toàn thư Trái đất','hero-title':'Bách khoa Toàn thư Trái đất',
+    'hero-desc':'10 ngôn ngữ · Khoa học, văn minh, sinh thái, công nghệ & tương lai — Bản đồ tri thức toàn cầu',
+    'stat-lang':'Ngôn ngữ','stat-cat':'Lĩnh vực','stat-dim':'Chiều','stat-knowledge':'Kiến thức',
+    'nav-home':'Trang chủ','nav-cats':'Phân loại','nav-langs':'Ngôn ngữ','nav-eaco':'EACO','nav-timeline':'Dòng thời gian',
+    'cat-title':'Tám lĩnh vực tri thức Trái đất','cat-desc':'Từ hạt đến vũ trụ, từ cổ đại đến tương lai — Bản đồ tri thức hoàn chỉnh',
+    'eaco-title':'EACO · Bốn chữ cái, một bộ bách khoa','eaco-desc':'Bốn chữ cái EACO trải qua vật lý, sinh học, âm nhạc, khí hậu, triết học, toán học v.v.',
+    'lang-title':'10 ngôn ngữ hàng đầu','lang-desc':'Phủ sóng hơn 70% dân số thế giới — Tri thức không biên giới',
+    'tl-title':'Dòng thời gian văn minh Trái đất','tl-desc':'Từ 4,6 tỷ năm trước đến tương lai — Câu chuyện vĩ đại của Trái đất',
+    'footer-about':'Giới thiệu','footer-about-1':'Bách khoa Toàn thư','footer-about-2':'Phân loại',
+    'footer-resources':'Tài nguyên','footer-res-1':'10 ngôn ngữ','footer-res-2':'EACO đa chiều','footer-res-3':'Dòng thời gian',
+    'footer-links':'Liên kết','eaco-link-sub':'Tìm hiểu về EACO Earth Coin',
+    'search-placeholder':'Tìm kiếm tri thức...'
+  },
+  ms:{
+    'hero-badge':'🌍 Ensiklopedia Bumi','hero-title':'Ensiklopedia Bumi',
+    'hero-desc':'10 bahasa · Sains, tamadun, ekologi, teknologi & masa depan — Graf pengetahuan kampung global',
+    'stat-lang':'Bahasa','stat-cat':'Bidang','stat-dim':'Dimensi','stat-knowledge':'Pengetahuan',
+    'nav-home':'Laman utama','nav-cats':'Kategori','nav-langs':'Bahasa','nav-eaco':'EACO','nav-timeline':'Garis masa',
+    'cat-title':'Lapan Bidang Pengetahuan Bumi','cat-desc':'Dari zarah ke alam semesta, dari lampau ke masa depan',
+    'eaco-title':'EACO · Empat huruf, ensiklopedia Bumi','eaco-desc':'Empat huruf EACO merangkumi fizik, biologi, muzik, iklim, falsafah, matematik dll.',
+    'lang-title':'10 Bahasa Teratas Kampung Global','lang-desc':'Meliputi lebih 70% penduduk dunia — Pengetahuan tanpa sempadan',
+    'tl-title':'Garis Masa Tamadun Bumi','tl-desc':'Dari 4.6 bilion tahun lalu ke tamadun masa depan',
+    'footer-about':'Tentang','footer-about-1':'Ensiklopedia Bumi','footer-about-2':'Kategori',
+    'footer-resources':'Sumber','footer-res-1':'10 Bahasa','footer-res-2':'Dimensi EACO','footer-res-3':'Garis masa',
+    'footer-links':'Pautan','eaco-link-sub':'Klik untuk ketahui EACO Earth Coin',
+    'search-placeholder':'Cari pengetahuan...'
+  },
+  es:{
+    'hero-badge':'🌍 Enciclopedia de la Tierra','hero-title':'Enciclopedia de la Tierra',
+    'hero-desc':'10 idiomas · Ciencia, civilización, ecología, tecnología y futuro — Mapa de conocimiento global',
+    'stat-lang':'Idiomas','stat-cat':'Categorías','stat-dim':'Dimensiones','stat-knowledge':'Conocimiento',
+    'nav-home':'Inicio','nav-cats':'Categorías','nav-langs':'Idiomas','nav-eaco':'EACO','nav-timeline':'Cronología',
+    'cat-title':'Ocho dominios del conocimiento','cat-desc':'De partículas a cosmos, del pasado al futuro',
+    'eaco-title':'EACO · Cuatro letras, una enciclopedia','eaco-desc':'Las cuatro letras de EACO abarcan física, biología, música, clima, filosofía, matemáticas',
+    'lang-title':'10 idiomas principales','lang-desc':'Cubriendo más del 70% de la población mundial',
+    'tl-title':'Cronología de la civilización','tl-desc':'Desde hace 4600 millones de años hasta el futuro',
+    'footer-about':'Acerca de','footer-about-1':'Enciclopedia','footer-about-2':'Categorías',
+    'footer-resources':'Recursos','footer-res-1':'10 idiomas','footer-res-2':'Dimensiones EACO','footer-res-3':'Cronología',
+    'footer-links':'Enlaces','eaco-link-sub':'Haz clic para conocer EACO Earth Coin',
+    'search-placeholder':'Buscar conocimiento...'
+  },
+  fr:{
+    'hero-badge':'🌍 Encyclopédie de la Terre','hero-title':'Encyclopédie de la Terre',
+    'hero-desc':'10 langues · Science, civilisation, écologie, technologie et futur — Cartographie du savoir mondial',
+    'stat-lang':'Langues','stat-cat':'Catégories','stat-dim':'Dimensions','stat-knowledge':'Savoir',
+    'nav-home':'Accueil','nav-cats':'Catégories','nav-langs':'Langues','nav-eaco':'EACO','nav-timeline':'Chronologie',
+    'cat-title':'Huit domaines du savoir','cat-desc':'Des particules au cosmos, du passé au futur',
+    'eaco-title':'EACO · Quatre lettres, une encyclopédie','eaco-desc':'Les quatre lettres d\'EACO couvrent physique, biologie, musique, climat, philosophie, mathématiques',
+    'lang-title':'10 langues principales','lang-desc':'Couvrant plus de 70% de la population mondiale',
+    'tl-title':'Chronologie de la civilisation','tl-desc':'Depuis 4,6 milliards d\'années jusqu\'au futur',
+    'footer-about':'À propos','footer-about-1':'Encyclopédie','footer-about-2':'Catégories',
+    'footer-resources':'Ressources','footer-res-1':'10 langues','footer-res-2':'Dimensions EACO','footer-res-3':'Chronologie',
+    'footer-links':'Liens','eaco-link-sub':'Cliquez pour découvrir EACO Earth Coin',
+    'search-placeholder':'Rechercher...'
+  },
+  ar:{
+    'hero-badge':'🌍 موسوعة الأرض','hero-title':'موسوعة الأرض',
+    'hero-desc':'10 لغات · العلوم والحضارة والبيئة والتقنية والمستقبل — خريطة معرفة القرية العالمية',
+    'stat-lang':'لغات','stat-cat':'مجالات','stat-dim':'أبعاد','stat-knowledge':'معرفة',
+    'nav-home':'الرئيسية','nav-cats':'الفئات','nav-langs':'اللغات','nav-eaco':'EACO','nav-timeline':'الجدول الزمني',
+    'cat-title':'ثمانية مجالات معرفية','cat-desc':'من الجسيمات إلى الكون، من الماضي إلى المستقبل',
+    'eaco-title':'EACO · أربعة أحرف، موسوعة كاملة','eaco-desc':'أحرف EACO الأربعة تشمل الفيزياء والأحياء والموسيقى والمناخ والفلسفة والرياضيات',
+    'lang-title':'أهم 10 لغات','lang-desc':'تغطي أكثر من 70% من سكان العالم',
+    'tl-title':'الجدول الزمني للحضارة','tl-desc':'من 4.6 مليار سنة إلى الحضارة المستقبلية',
+    'footer-about':'حول','footer-about-1':'الموسوعة','footer-about-2':'الفئات',
+    'footer-resources':'موارد','footer-res-1':'10 لغات','footer-res-2':'أبعاد EACO','footer-res-3':'الجدول الزمني',
+    'footer-links':'روابط','eaco-link-sub':'انقر لمعرفة المزيد عن EACO',
+    'search-placeholder':'ابحث عن المعرفة...'
+  },
+  ru:{
+    'hero-badge':'🌍 Энциклопедия Земли','hero-title':'Энциклопедия Земли',
+    'hero-desc':'10 языков · Наука, цивилизация, экология, технологии и будущее — Карта знаний глобальной деревни',
+    'stat-lang':'Языки','stat-cat':'Категории','stat-dim':'Измерения','stat-knowledge':'Знания',
+    'nav-home':'Главная','nav-cats':'Категории','nav-langs':'Языки','nav-eaco':'EACO','nav-timeline':'Хронология',
+    'cat-title':'Восемь областей знаний','cat-desc':'От частиц до космоса, от прошлого к будущему',
+    'eaco-title':'EACO · Четыре буквы, энциклопедия','eaco-desc':'Четыре буквы EACO охватывают физику, биологию, музыку, климат, философию, математику',
+    'lang-title':'10 главных языков','lang-desc':'Охватывают более 70% населения мира',
+    'tl-title':'Хронология цивилизации','tl-desc':'От 4,6 млрд лет назад до будущей цивилизации',
+    'footer-about':'О нас','footer-about-1':'Энциклопедия','footer-about-2':'Категории',
+    'footer-resources':'Ресурсы','footer-res-1':'10 языков','footer-res-2':'Измерения EACO','footer-res-3':'Хронология',
+    'footer-links':'Ссылки','eaco-link-sub':'Нажмите, чтобы узнать об EACO',
+    'search-placeholder':'Поиск знаний...'
+  }
+};
+
+// ====== CATEGORIES DATA ======
+const categories = [
+  {icon:'⚛️',titles:{zh:'物理与宇宙',en:'Physics & Cosmos',ja:'物理と宇宙',ko:'물리와 우주',vi:'Vật lý & Vũ trụ',ms:'Fizik & Kosmos',es:'Física y Cosmos',fr:'Physique et Cosmos',ar:'الفيزياء والكون',ru:'Физика и Космос'},
+   desc:{zh:'从量子到星系——E=mc², 光速, 熵, 奇点',en:'From quantum to galaxies — E=mc², light speed, entropy, singularity',ja:'量子から銀河まで — E=mc²、光速、エントロピー',ko:'양자에서 은하까지 — E=mc², 광속, 엔트로피',vi:'Từ lượng tử đến thiên hà — E=mc², tốc độ ánh sáng',ms:'Daripada kuantum ke galaksi — E=mc²',es:'De cuántica a galaxias — E=mc²',fr:'Du quantique aux galaxies — E=mc²',ar:'من الكم إلى المجرات — E=mc²',ru:'От кванта до галактик — E=mc²'},
+   articles:12},
+  {icon:'🧬',titles:{zh:'生命科学',en:'Life Sciences',ja:'生命科学',ko:'생명 과학',vi:'Khoa học Sự sống',ms:'Sains Hayat',es:'Ciencias de la Vida',fr:'Sciences de la Vie',ar:'علوم الحياة',ru:'Науки о жизни'},
+   desc:{zh:'DNA碱基·碳·氧·酶·细胞·生命起源',en:'DNA bases, Carbon, Oxygen, Enzyme, Cell, Origin of life',ja:'DNA塩基・炭素・酸素・酵素・細胞・生命の起源',ko:'DNA 염기·탄소·산소·효소·세포·생명 기원',vi:'DNA, Carbon, Oxygen, Enzyme, Tế bào',ms:'DNA, Karbon, Oksigen, Enzim, Sel',es:'ADN, Carbono, Oxígeno, Enzima, Célula',fr:'ADN, Carbone, Oxygène, Enzyme, Cellule',ar:'DNA، الكربون، الأكسجين، الخلية',ru:'ДНК, Углерод, Кислород, Клетка'},
+   articles:10},
+  {icon:'🌍',titles:{zh:'地球与生态',en:'Earth & Ecology',ja:'地球と生態',ko:'지구와 생태',vi:'Trái đất & Sinh thái',ms:'Bumi & Ekologi',es:'Tierra y Ecología',fr:'Terre et Écologie',ar:'الأرض والبيئة',ru:'Земля и Экология'},
+   desc:{zh:'四元素·气候·海洋·碳循环·臭氧层',en:'Four elements, Climate, Ocean, Carbon cycle, Ozone',ja:'四元素・気候・海洋・炭素循環・オゾン層',ko:'사원소·기후·해양·탄소 순환·오존층',vi:'Bốn nguyên tố, Khí hậu, Đại dương, Carbon',ms:'Empat unsur, Iklim, Lautan, Kitaran Karbon',es:'Cuatro elementos, Clima, Océano, Ciclo de carbono',fr:'Quatre éléments, Climat, Océan, Cycle du carbone',ar:'العناصر الأربعة، المناخ، المحيط',ru:'Четыре элемента, Климат, Океан'},
+   articles:14},
+  {icon:'🏛️',titles:{zh:'文明与历史',en:'Civilization & History',ja:'文明と歴史',ko:'문명과 역사',vi:'Văn minh & Lịch sử',ms:'Tamadun & Sejarah',es:'Civilización e Historia',fr:'Civilisation et Histoire',ar:'الحضارة والتاريخ',ru:'Цивилизация и История'},
+   desc:{zh:'人类认知四阶段·法治四支柱·文明时间线',en:'Cognitive stages, Legal pillars, Civilization timeline',ja:'人類認知の4段階・法治の4支柱・文明タイムライン',ko:'인지 4단계·법치 4기둥·문명 타임라인',vi:'Giai đoạn nhận thức, Trụ cột pháp lý',ms:'Tahap kognitif, Tiang undang-undang',es:'Etapas cognitivas, Pilares legales',fr:'Étapes cognitives, Piliers juridiques',ar:'مراحل الإدراك، أعمدة القانون',ru:'Этапы познания, Столпы права'},
+   articles:16},
+  {icon:'🎵',titles:{zh:'艺术与音乐',en:'Arts & Music',ja:'芸術と音楽',ko:'예술과 음악',vi:'Nghệ thuật & Âm nhạc',ms:'Seni & Muzik',es:'Arte y Música',fr:'Art et Musique',ar:'الفن والموسيقى',ru:'Искусство и Музыка'},
+   desc:{zh:'A小调和弦·八度·色谱·建筑四要素',en:'A minor chord, Octave, Color spectrum, Architecture',ja:'イ短調コード・オクターブ・色スペクトル・建築',ko:'가단조 화음·옥타브·색 스펙트럼·건축',vi:'Hợp âm La thứ, Quãng tám, Quang phổ',ms:'Kord A minor, Oktaf, Spektrum warna',es:'Acorde La menor, Octava, Espectro',fr:'Accord La mineur, Octave, Spectre',ar:'كورد لا الصغير، أوكتاف، طيف الألوان',ru:'Ля минор, Октава, Спектр'},
+   articles:8},
+  {icon:'💻',titles:{zh:'科技与Web3',en:'Technology & Web3',ja:'テクノロジーとWeb3',ko:'테크와 Web3',vi:'Công nghệ & Web3',ms:'Teknologi & Web3',es:'Tecnología y Web3',fr:'Technologie et Web3',ar:'التقنية و Web3',ru:'Технологии и Web3'},
+   desc:{zh:'加密·地址·共识·链上·AI涌现·算法',en:'Encryption, Address, Consensus, On-chain, AI emergence',ja:'暗号化・アドレス・コンセンサス・オンチェーン・AI',ko:'암호화·주소·합의·온체인·AI',vi:'Mã hóa, Địa chỉ, Đồng thuận, On-chain',ms:'Penyulitan, Alamat, Konsensus, On-chain',es:'Cifrado, Dirección, Consenso, On-chain',fr:'Chiffrement, Adresse, Consensus, On-chain',ar:'التشفير، العنوان، الإجماع',ru:'Шифрование, Адрес, Консенсус'},
+   articles:18},
+  {icon:'💰',titles:{zh:'经济与金融',en:'Economy & Finance',ja:'経済と金融',ko:'경제와 금융',vi:'Kinh tế & Tài chính',ms:'Ekonomi & Kewangan',es:'Economía y Finanzas',fr:'Économie et Finance',ar:'الاقتصاد والمالية',ru:'Экономика и Финансы'},
+   desc:{zh:'权益·资产·资本·产出·经济循环',en:'Equity, Asset, Capital, Output, Economic cycle',ja:'持分・資産・資本・産出・経済循環',ko:'지분·자산·자본·산출·경제 순환',vi:'Vốn cổ phần, Tài sản, Vốn, Đầu ra',ms:'Ekuiti, Aset, Modal, Output',es:'Patrimonio, Activo, Capital, Output',fr:'Capitaux, Actif, Capital, Production',ar:'الحقوق، الأصول، رأس المال',ru:'Доля, Активы, Капитал, Выпуск'},
+   articles:10},
+  {icon:'🧘',titles:{zh:'哲学与意识',en:'Philosophy & Consciousness',ja:'哲学と意識',ko:'철학과 의식',vi:'Triết học & Ý thức',ms:'Falsafah & Kesedaran',es:'Filosofía y Consciencia',fr:'Philosophie et Conscience',ar:'الفلسفة والوعي',ru:'Философия и Сознание'},
+   desc:{zh:'空·觉·悲·一 — 从空性到合一的修行路径',en:'Emptiness, Awareness, Compassion, Oneness',ja:'空・覚・悲・一 — 空性から合一への道',ko:'공·각·비·일 — 공성에서 합일로',vi:'Không · Giác · Bi · Nhất',ms:'Kosong · Sedar · Belas · Satu',es:'Vacío · Conciencia · Compasión · Unidad',fr:'Vide · Conscience · Compassion · Unité',ar:'الفراغ · الوعي · الرحمة · الوحدة',ru:'Пустота · Осознанность · Сострадание · Единство'},
+   articles:8}
+];
+
+// ====== EACO DIMENSIONS DATA ======
+const eacoDims = [
+  {e:'Energy',a:'Attitude',c:'Cooperation',o:'Optimization',name:{zh:'官方定义',en:'Official',ja:'公式',ko:'공식',vi:'Chính thức',ms:'Rasmi',es:'Oficial',fr:'Officiel',ar:'رسمي',ru:'Официальное'}},
+  {e:'Evolution',a:'Awareness',c:'Civilization',o:'Oneness',name:{zh:'哲学升级',en:'Philosophy',ja:'哲学',ko:'철학',vi:'Triết học',ms:'Falsafah',es:'Filosofía',fr:'Philosophie',ar:'فلسفة',ru:'Философия'}},
+  {e:'Electron',a:'Atom',c:'Carbon',o:'Oxygen',name:{zh:'化学元素',en:'Chemistry',ja:'化学',ko:'화학',vi:'Hóa học',ms:'Kimia',es:'Química',fr:'Chimie',ar:'كيمياء',ru:'Химия'}},
+  {e:'Emission',a:'Atmosphere',c:'Carbon',o:'Ozone',name:{zh:'气候科学',en:'Climate',ja:'気候',ko:'기후',vi:'Khí hậu',ms:'Iklim',es:'Clima',fr:'Climat',ar:'المناخ',ru:'Климат'}},
+  {e:'Earth',a:'Air',c:'Combustion',o:'Ocean',name:{zh:'四元素',en:'Four Elements',ja:'四元素',ko:'사원소',vi:'Bốn nguyên tố',ms:'Empat Unsur',es:'Cuatro Elementos',fr:'Quatre Éléments',ar:'العناصر الأربعة',ru:'Четыре элемента'}},
+  {e:'Euler(e)',a:'Area',c:'Circumference',o:'Origin(0)',name:{zh:'数学',en:'Mathematics',ja:'数学',ko:'수학',vi:'Toán học',ms:'Matematik',es:'Matemáticas',fr:'Mathématiques',ar:'الرياضيات',ru:'Математика'}},
+  {e:'Equity',a:'Asset',c:'Capital',o:'Output',name:{zh:'经济金融',en:'Economy',ja:'経済',ko:'경제',vi:'Kinh tế',ms:'Ekonomi',es:'Economía',fr:'Économie',ar:'الاقتصاد',ru:'Экономика'}},
+  {e:'Emptiness',a:'Awareness',c:'Compassion',o:'Oneness',name:{zh:'东方哲学',en:'Eastern Philosophy',ja:'東洋哲学',ko:'동양 철학',vi:'Triết học phương Đông',ms:'Falsafah Timur',es:'Filosofía Oriental',fr:'Philosophie Orientale',ar:'الفلسفة الشرقية',ru:'Восточная философия'}},
+  {e:'Emergence',a:'Algorithm',c:'Cognition',o:'Optimization',name:{zh:'AI原语',en:'AI Primitives',ja:'AIプリミティブ',ko:'AI 원시',vi:'Nguyên thủy AI',ms:'Primitif AI',es:'Primitivos de IA',fr:'Primitifs IA',ar:'بدائيات الذكاء الاصطناعي',ru:'Примитивы ИИ'}},
+  {e:'Encryption',a:'Address',c:'Consensus',o:'On-chain',name:{zh:'区块链',en:'Blockchain',ja:'ブロックチェーン',ko:'블록체인',vi:'Blockchain',ms:'Blockchain',es:'Blockchain',fr:'Blockchain',ar:'بلوكتشين',ru:'Блокчейн'}},
+  {e:'Emerald',a:'Amber',c:'Cyan',o:'Orange',name:{zh:'色彩光学',en:'Color & Optics',ja:'色彩光学',ko:'색채 광학',vi:'Màu sắc & Quang học',ms:'Warna & Optik',es:'Color y Óptica',fr:'Couleur et Optique',ar:'اللون والبصريات',ru:'Цвет и Оптика'}},
+  {e:'Entropy',a:'Alphabet',c:'Channel',o:'Output',name:{zh:'信息论',en:'Information Theory',ja:'情報理論',ko:'정보 이론',vi:'Lý thuyết thông tin',ms:'Teori Maklumat',es:'Teoría de la Información',fr:'Théorie de l\'Information',ar:'نظرية المعلومات',ru:'Теория информации'}},
+  {e:'Earth',a:'Asteroid',c:'Cosmos',o:'Orbit',name:{zh:'太空宇宙',en:'Space',ja:'宇宙',ko:'우주',vi:'Không gian',ms:'Angkasa',es:'Espacio',fr:'Espace',ar:'الفضاء',ru:'Космос'}},
+  {e:'Eon',a:'Annual',c:'Century',o:'Orbit',name:{zh:'时间历法',en:'Time & Calendar',ja:'時間暦',ko:'시간 역법',vi:'Thời gian & Lịch',ms:'Masa & Kalendar',es:'Tiempo y Calendario',fr:'Temps et Calendrier',ar:'الزمن والتقويم',ru:'Время и Календарь'}},
+  {e:'ECG',a:'Arterial',c:'Count',o:'Oxygen',name:{zh:'医学',en:'Medicine',ja:'医学',ko:'의학',vi:'Y học',ms:'Perubatan',es:'Medicina',fr:'Médecine',ar:'الطب',ru:'Медицина'}},
+  {e:'Energy',a:'Arrow',c:'Carnot',o:'Order',name:{zh:'热力学',en:'Thermodynamics',ja:'熱力学',ko:'열역학',vi:'Nhiệt động lực học',ms:'Termodinamik',es:'Termodinámica',fr:'Thermodynamique',ar:'الديناميكا الحرارية',ru:'Термодинамика'}}
+];
+
+// ====== LANGUAGES DATA ======
+const languages = [
+  {flag:'🇨🇳',name:'Chinese',native:'中文',speakers:'1.14B'},
+  {flag:'🇬🇧',name:'English',native:'English',speakers:'1.52B'},
+  {flag:'🇯🇵',name:'Japanese',native:'日本語',speakers:'125M'},
+  {flag:'🇰🇷',name:'Korean',native:'한국어',speakers:'77M'},
+  {flag:'🇻🇳',name:'Vietnamese',native:'Tiếng Việt',speakers:'85M'},
+  {flag:'🇲🇾',name:'Malay',native:'Bahasa Melayu',speakers:'77M'},
+  {flag:'🇪🇸',name:'Spanish',native:'Español',speakers:'599M'},
+  {flag:'🇫🇷',name:'French',native:'Français',speakers:'255M'},
+  {flag:'🇸🇦',name:'Arabic',native:'العربية',speakers:'574M'},
+  {flag:'🇷🇺',name:'Russian',native:'Русский',speakers:'250M'}
+];
+
+// ====== TIMELINE DATA ======
+const timeline = [
+  {time:{zh:'46亿年前',en:'4.6 Bya',ja:'46億年前',ko:'46억년 전',vi:'4,6 tỷ năm',ms:'4.6 bya',es:'4600 Ma',fr:'4,6 Mia',ar:'4.6 مليار سنة',ru:'4,6 млрд лет назад'},
+   title:{zh:'地球诞生',en:'Earth Born',ja:'地球誕生',ko:'지구 탄생',vi:'Trái đất hình thành',ms:'Bumi Lahir',es:'Nacimiento de la Tierra',fr:'Naissance de la Terre',ar:'ولادة الأرض',ru:'Рождение Земли'},
+   desc:{zh:'太阳系星云坍缩，地球形成',en:'Solar nebula collapse, Earth forms',ja:'太陽系星雲が崩壊し地球が形成',ko:'태양계 성운 붕괴, 지구 형성',vi:'Tinh vân hệ Mặt Trời sụp đổ',ms:'Nebula suria runtuh, Bumi terbentuk',es:'Colapso de la nebulosa solar',fr:'Effondrement de la nébuleuse solaire',ar:'انهيار السديم الشمسي',ru:'Коллапс солнечной туманности'}},
+  {time:{zh:'38亿年前',en:'3.8 Bya',ja:'38億年前',ko:'38억년 전',vi:'3,8 tỷ năm',ms:'3.8 bya',es:'3800 Ma',fr:'3,8 Mia',ar:'3.8 مليار سنة',ru:'3,8 млрд лет назад'},
+   title:{zh:'生命起源',en:'Origin of Life',ja:'生命の起源',ko:'생명 기원',vi:'Nguồn gốc sự sống',ms:'Asal-usul Hayat',es:'Origen de la Vida',fr:'Origine de la Vie',ar:'أصل الحياة',ru:'Возникновение жизни'},
+   desc:{zh:'第一个单细胞生命出现',en:'First single-cell life emerges',ja:'最初の単細胞生命が出現',ko:'최초의 단세포 생명 출현',vi:'Sự sống đơn bào đầu tiên',ms:'Kehidupan sel tunggal pertama',es:'Aparece la primera vida celular',fr:'Première vie cellulaire',ar:'أول حياة خلوية',ru:'Первая клеточная жизнь'}},
+  {time:{zh:'5亿年前',en:'500 Mya',ja:'5億年前',ko:'5억년 전',vi:'500 triệu năm',ms:'500 mya',es:'500 Ma',fr:'500 Mia',ar:'500 مليون سنة',ru:'500 млн лет назад'},
+   title:{zh:'寒武纪大爆发',en:'Cambrian Explosion',ja:'カンブリア爆発',ko:'캄브리아 대폭발',vi:'Bùng nổ Cambri',ms:'Letupan Kambria',es:'Explosión Cámbrica',fr:'Explosion Cambrienne',ar:'الانفجار الكامبري',ru:'Кембрийский взрыв'},
+   desc:{zh:'多细胞生物大辐射',en:'Multicellular life radiation',ja:'多細胞生物の大放散',ko:'다세포 생물 대방사',vi:'Sự bùng nổ đa bào',ms:'Radiasi hidupan multisel',es:'Radiación de vida multicelular',fr:'Radiation de la vie multicellulaire',ar:'تنوع الحياة متعددة الخلايا',ru:'Радиация многоклеточных'}},
+  {time:{zh:'700万年前',en:'7 Mya',ja:'700万年前',ko:'700만년 전',vi:'7 triệu năm',ms:'7 mya',es:'7 Ma',fr:'7 Mia',ar:'7 مليون سنة',ru:'7 млн лет назад'},
+   title:{zh:'人类祖先',en:'Human Ancestors',ja:'人類の祖先',ko:'인류 조상',vi:'Tổ tiên loài người',ms:'Leluhur Manusia',es:'Ancestros Humanos',fr:'Ancêtres Humains',ar:'أسلاف البشر',ru:'Предки человека'},
+   desc:{zh:'人与黑猩猩分化',en:'Human-chimp divergence',ja:'人類とチンパンジーの分化',ko:'인류와 침팬지 분화',vi:'Tách biệt người-tinh tinh',ms:'Percapahan manusia-chimp',es:'Divergencia humano-chimpance',fr:'Divergence homme-chimpanzé',ar:'انفصال الإنسان عن الشمبانزي',ru:'Разделение человека и шимпанзе'}},
+  {time:{zh:'1万年前',en:'10 Kya',ja:'1万年前',ko:'1만년 전',vi:'1 vạn năm',ms:'10 kya',es:'10 Ka',fr:'10 Ka',ar:'10 آلاف سنة',ru:'10 тыс. лет назад'},
+   title:{zh:'农业革命',en:'Agricultural Revolution',ja:'農業革命',ko:'농업 혁명',vi:'Cách mạng Nông nghiệp',ms:'Revolusi Pertanian',es:'Revolución Agrícola',fr:'Révolution Agricole',ar:'الثورة الزراعية',ru:'Аграрная революция'},
+   desc:{zh:'人类定居，文明萌芽',en:'Human settlement, civilization begins',ja:'人類定住、文明萌芽',ko:'인류 정착, 문명 싹틔움',vi:'Con người định cư, văn minh bắt đầu',ms:'Penempatan manusia, tamadun bermula',es:'Asentamiento, inicio de civilización',fr:'Sédentarisation, début de la civilisation',ar:'استقرار الإنسان وبداية الحضارة',ru:'Оседлость, зарождение цивилизации'}},
+  {time:{zh:'500年前',en:'500 years ago',ja:'500年前',ko:'500년 전',vi:'500 năm',ms:'500 tahun',es:'500 años',fr:'500 ans',ar:'500 سنة',ru:'500 лет назад'},
+   title:{zh:'大航海时代',en:'Age of Discovery',ja:'大航海時代',ko:'대항해시대',vi:'Thời đại Khám phá',ms:'Zaman Penemuan',es:'Era de los Descubrimientos',fr:'Époque des Découvertes',ar:'عصر الاكتشافات',ru:'Эпоха Великих открытий'},
+   desc:{zh:'全球联通，地球村雏形',en:'Global connection, global village emerges',ja:'世界接続、地球村の原型',ko:'세계 연결, 지구촌 원형',vi:'Kết nối toàn cầu',ms:'Sambungan global, kampung global lahir',es:'Conexión global, aldea global',fr:'Connexion mondiale, village global',ar:'ترابط عالمي، القرية العالمية',ru:'Глобальная связь, мировая деревня'}},
+  {time:{zh:'2026',en:'2026',ja:'2026',ko:'2026',vi:'2026',ms:'2026',es:'2026',fr:'2026',ar:'2026',ru:'2026'},
+   title:{zh:'AI+Web3时代',en:'AI + Web3 Era',ja:'AI+Web3時代',ko:'AI+Web3 시대',vi:'Kỷ nguyên AI+Web3',ms:'Era AI+Web3',es:'Era AI+Web3',fr:'Ère IA+Web3',ar:'عصر الذكاء الاصطناعي + Web3',ru:'Эра ИИ+Web3'},
+   desc:{zh:'EACO地球代币诞生 — AI+RWA+Web3',en:'EACO Earth Coin born — AI+RWA+Web3',ja:'EACO地球コイン誕生 — AI+RWA+Web3',ko:'EACO 지구 코인 탄생 — AI+RWA+Web3',vi:'EACO Earth Coin ra đời — AI+RWA+Web3',ms:'EACO Earth Coin lahir — AI+RWA+Web3',es:'EACO Earth Coin nace — IA+RWA+Web3',fr:'EACO Earth Coin naît — IA+RWA+Web3',ar:'ولادة عملة EACO — ذكاء+RWA+Web3',ru:'EACO Earth Coin рождается — ИИ+RWA+Web3'}},
+  {time:{zh:'未来',en:'Future',ja:'未来',ko:'미래',vi:'Tương lai',ms:'Masa depan',es:'Futuro',fr:'Futur',ar:'المستقبل',ru:'Будущее'},
+   title:{zh:'地球文明升级',en:'Earth Civilization Upgrade',ja:'地球文明の昇格',ko:'지구 문명 승격',vi:'Nâng cấp văn minh',ms:'Naik Taraf Tamadun',es:'Mejora de la Civilización',fr:'Amélioration de la Civilisation',ar:'ترقية الحضارة',ru:'Модернизация цивилизации'},
+   desc:{zh:'EACO = Evolution × Awareness × Civilization × Oneness',en:'EACO = Evolution × Awareness × Civilization × Oneness',ja:'EACO = 進化 × 覚醒 × 文明 × 合一',ko:'EACO = 진화 × 각성 × 문명 × 합일',vi:'EACO = Tiến hóa × Nhận thức × Văn minh',ms:'EACO = Evolusi × Kesedaran × Tamadun',es:'EACO = Evolución × Conciencia × Civilización',fr:'EACO = Évolution × Conscience × Civilisation',ar:'EACO = تطور × وعي × حضارة',ru:'EACO = Эволюция × Осознанность × Цивилизация'}}
+];
+
+// ====== STATE ======
+let currentLang = 'zh';
+
+// ====== FUNCTIONS ======
+function setLang(lang) {
+  currentLang = lang;
+  // update lang buttons
+  document.querySelectorAll('.lang-btn').forEach(b => {
+    b.classList.toggle('active', b.textContent === getLangLabel(lang));
+  });
+  // update i18n
+  const t = i18n[lang] || i18n.en;
+  const idMap = {
+    'hero-badge':'hero-badge','hero-title':'hero-title','hero-desc':'hero-desc',
+    'stat-lang':'stat-lang','stat-cat':'stat-cat','stat-dim':'stat-dim','stat-knowledge':'stat-knowledge',
+    'nav-home':'nav-home','nav-cats':'nav-cats','nav-langs':'nav-langs','nav-eaco':'nav-eaco','nav-timeline':'nav-timeline',
+    'cat-title':'cat-title','cat-desc':'cat-desc',
+    'eaco-title':'eaco-title','eaco-desc':'eaco-desc',
+    'lang-title':'lang-title','lang-desc':'lang-desc',
+    'tl-title':'tl-title','tl-desc':'tl-desc',
+    'footer-about':'footer-about','footer-about-1':'footer-about-1','footer-about-2':'footer-about-2',
+    'footer-resources':'footer-resources','footer-res-1':'footer-res-1','footer-res-2':'footer-res-2','footer-res-3':'footer-res-3',
+    'footer-links':'footer-links','eaco-link-sub':'eaco-link-sub'
+  };
+  Object.entries(idMap).forEach(([id, key]) => {
+    const el = document.getElementById(id);
+    if (el && t[key]) el.textContent = t[key];
+  });
+  // update search placeholder
+  const si = document.getElementById('search-input');
+  if (si) si.placeholder = t['search-placeholder'] || 'Search...';
+  // update eaco letters words
+  const eacoWords = eacoDims[0];
+  document.getElementById('eaco-e').textContent = eacoWords.e;
+  document.getElementById('eaco-a').textContent = eacoWords.a;
+  document.getElementById('eaco-c').textContent = eacoWords.c;
+  document.getElementById('eaco-o').textContent = eacoWords.o;
+  // re-render
+  renderCategories();
+  renderEacoDims();
+  renderLanguages();
+  renderTimeline();
+}
+
+function getLangLabel(lang) {
+  const labels = {zh:'中文',en:'EN',ja:'日本語',ko:'한국어',vi:'Vi',ms:'MS',es:'ES',fr:'FR',ar:'عرب',ru:'RU'};
+  return labels[lang] || 'EN';
+}
+
+function scrollToSection(id) {
+  document.getElementById(id).scrollIntoView({behavior:'smooth'});
+  document.querySelectorAll('nav a').forEach(a => a.classList.remove('active'));
+  const navMap = {'hero':'nav-home','categories':'nav-cats','languages':'nav-langs','eaco-meaning':'nav-eaco','timeline':'nav-timeline'};
+  const navId = navMap[id];
+  if (navId) document.getElementById(navId)?.classList.add('active');
+}
+
+function renderCategories() {
+  const grid = document.getElementById('cat-grid');
+  const search = (document.getElementById('search-input')?.value || '').toLowerCase();
+  grid.innerHTML = categories
+    .filter(c => !search || (c.titles[currentLang]||c.titles.en).toLowerCase().includes(search) || (c.desc[currentLang]||c.desc.en).toLowerCase().includes(search))
+    .map(c => `
+      <div class="cat-card fade-in">
+        <div class="cat-icon">${c.icon}</div>
+        <h3>${c.titles[currentLang] || c.titles.en}</h3>
+        <p>${c.desc[currentLang] || c.desc.en}</p>
+        <div class="cat-articles">${c.articles} articles</div>
+      </div>
+    `).join('');
+  observeFade();
+}
+
+function renderEacoDims() {
+  const grid = document.getElementById('eaco-dim-grid');
+  grid.innerHTML = eacoDims.map(d => `
+    <div class="cat-card fade-in" style="text-align:center">
+      <h3 style="font-size:.9rem;color:var(--primary);margin-bottom:12px">${d.name[currentLang] || d.name.en}</h3>
+      <div style="display:flex;justify-content:center;gap:8px;flex-wrap:wrap">
+        <span style="background:rgba(16,185,129,.12);color:var(--primary);padding:4px 10px;border-radius:6px;font-size:.8rem;font-weight:600">E=${d.e}</span>
+        <span style="background:rgba(6,182,212,.12);color:var(--accent2);padding:4px 10px;border-radius:6px;font-size:.8rem;font-weight:600">A=${d.a}</span>
+        <span style="background:rgba(245,158,11,.12);color:var(--gold2);padding:4px 10px;border-radius:6px;font-size:.8rem;font-weight:600">C=${d.c}</span>
+        <span style="background:rgba(139,92,246,.12);color:#a78bfa;padding:4px 10px;border-radius:6px;font-size:.8rem;font-weight:600">O=${d.o}</span>
+      </div>
+    </div>
+  `).join('');
+  observeFade();
+}
+
+function renderLanguages() {
+  const grid = document.getElementById('lang-grid');
+  grid.innerHTML = languages.map(l => `
+    <div class="lang-card fade-in">
+      <div class="lang-flag">${l.flag}</div>
+      <div class="lang-name">${l.name}</div>
+      <div class="lang-native">${l.native}</div>
+      <div class="lang-speakers">${l.speakers} speakers</div>
+    </div>
+  `).join('');
+  observeFade();
+}
+
+function renderTimeline() {
+  const container = document.getElementById('timeline-content');
+  container.innerHTML = timeline.map(t => `
+    <div class="timeline-item fade-in">
+      <div class="time">${t.time[currentLang] || t.time.en}</div>
+      <h4>${t.title[currentLang] || t.title.en}</h4>
+      <p>${t.desc[currentLang] || t.desc.en}</p>
+    </div>
+  `).join('');
+  observeFade();
+}
+
+function handleSearch(val) {
+  renderCategories();
+}
+
+function observeFade() {
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.classList.add('visible');
+        observer.unobserve(e.target);
+      }
+    });
+  }, {threshold: 0.1});
+  document.querySelectorAll('.fade-in:not(.visible)').forEach(el => observer.observe(el));
+}
+
+// ====== SCROLL SPY ======
+window.addEventListener('scroll', () => {
+  const sections = ['hero','categories','languages','eaco-meaning','timeline'];
+  const scrollPos = window.scrollY + 100;
+  for (let i = sections.length - 1; i >= 0; i--) {
+    const el = document.getElementById(sections[i]);
+    if (el && el.offsetTop <= scrollPos) {
+      document.querySelectorAll('nav a[data-section]').forEach(a => a.classList.remove('active'));
+      const navId = {'hero':'nav-home','categories':'nav-cats','languages':'nav-langs','eaco-meaning':'nav-eaco','timeline':'nav-timeline'}[sections[i]];
+      document.getElementById(navId)?.classList.add('active');
+      break;
+    }
+  }
+});
+
+// ====== INIT ======
+setLang('zh');
+</script>
+</body>
+</html>
