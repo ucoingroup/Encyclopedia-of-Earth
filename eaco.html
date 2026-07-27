@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>EACO - Earth's Best Coin | 地球代币</title>
+<meta name="description" content="EACO - Earth's top-tier AI + RWA + Web3 crypto asset on SOL chain">
+<style>
+:root{
+  --bg:#0a0e1a;--bg2:#0f1629;--card:#111827;--card2:#1a2235;
+  --border:#1e2d4a;--primary:#10b981;--primary2:#34d399;
+  --accent:#06b6d4;--accent2:#22d3ee;--gold:#f59e0b;--gold2:#fbbf24;
+  --purple:#8b5cf6;--purple2:#a78bfa;
+  --text:#e2e8f0;--text2:#94a3b8;--text3:#64748b;
+  --font:'Segoe UI','PingFang SC','Microsoft YaHei',sans-serif;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{font-family:var(--font);background:var(--bg);color:var(--text);line-height:1.7;overflow-x:hidden}
+header{position:fixed;top:0;left:0;right:0;z-index:100;background:rgba(10,14,26,.92);backdrop-filter:blur(12px);border-bottom:1px solid var(--border);padding:0 24px;height:60px;display:flex;align-items:center;justify-content:space-between}
+.logo{font-size:1.3rem;font-weight:800;background:linear-gradient(135deg,var(--primary),var(--gold));-webkit-background-clip:text;-webkit-text-fill-color:transparent;letter-spacing:.05em;cursor:pointer}
+.logo span{font-size:.65rem;opacity:.6;display:block;letter-spacing:.12em}
+nav{display:flex;gap:4px;align-items:center;flex-wrap:wrap}
+nav a{color:var(--text2);text-decoration:none;font-size:.82rem;padding:6px 12px;border-radius:8px;transition:all .2s;cursor:pointer}
+nav a:hover,nav a.active{background:var(--card2);color:var(--primary)}
+.back-link{color:var(--gold)!important;font-size:.8rem!important;border:1px solid var(--border)!important;border-radius:8px!important;margin-right:8px}
+.back-link:hover{border-color:var(--gold)!important;background:rgba(245,158,11,.08)!important}
+.lang-btns{display:flex;gap:4px;margin-left:12px;flex-wrap:wrap}
+.lang-btn{font-size:.7rem;padding:4px 8px;border-radius:6px;border:1px solid var(--border);background:transparent;color:var(--text2);cursor:pointer;transition:all .2s}
+.lang-btn:hover,.lang-btn.active{border-color:var(--primary);color:var(--primary);background:rgba(16,185,129,.08)}
+.hero{min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:80px 24px 60px;position:relative;background:radial-gradient(ellipse 80% 60% at 50% -10%,rgba(16,185,129,.15) 0%,transparent 60%),radial-gradient(ellipse 60% 40% at 80% 80%,rgba(245,158,11,.1) 0%,transparent 50%),radial-gradient(ellipse 40% 30% at 20% 60%,rgba(6,182,212,.08) 0%,transparent 50%)}
+.hero-badge{display:inline-flex;align-items:center;gap:8px;padding:6px 16px;border-radius:20px;border:1px solid var(--gold);background:rgba(245,158,11,.08);font-size:.8rem;color:var(--gold);margin-bottom:24px}
+.hero h1{font-size:clamp(2.5rem,6vw,5rem);font-weight:800;margin-bottom:16px;background:linear-gradient(135deg,var(--primary) 0%,var(--accent) 30%,var(--gold) 60%,var(--purple) 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;letter-spacing:.02em}
+.hero-sub{font-size:clamp(1rem,2.5vw,1.4rem);color:var(--text);font-weight:600;margin-bottom:8px}
+.hero-desc{font-size:clamp(.85rem,1.8vw,1.1rem);color:var(--text2);max-width:700px;margin-bottom:32px}
+.hero-ca{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:16px 24px;margin-bottom:32px;max-width:600px}
+.hero-ca-label{font-size:.7rem;color:var(--text3);text-transform:uppercase;letter-spacing:.1em;margin-bottom:4px}
+.hero-ca-value{font-family:'Courier New',monospace;font-size:.9rem;color:var(--primary2);word-break:break-all}
+.hero-buttons{display:flex;gap:16px;flex-wrap:wrap;justify-content:center}
+.btn-primary{padding:12px 32px;border-radius:10px;background:linear-gradient(135deg,var(--primary),var(--accent));color:var(--bg);text-decoration:none;font-weight:700;font-size:1rem;transition:all .3s;border:none;cursor:pointer}
+.btn-primary:hover{transform:scale(1.05);box-shadow:0 8px 30px rgba(16,185,129,.3)}
+.btn-secondary{padding:12px 32px;border-radius:10px;border:1px solid var(--border);background:transparent;color:var(--text);text-decoration:none;font-weight:600;font-size:1rem;transition:all .3s}
+.btn-secondary:hover{border-color:var(--gold);color:var(--gold);background:rgba(245,158,11,.08)}
+.stats-bar{display:flex;justify-content:center;gap:48px;flex-wrap:wrap;padding:32px 24px;background:var(--bg2);border-top:1px solid var(--border);border-bottom:1px solid var(--border)}
+.stat-item{text-align:center}
+.stat-num{font-size:2rem;font-weight:800;background:linear-gradient(135deg,var(--primary),var(--gold));-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.stat-label{font-size:.75rem;color:var(--text3);text-transform:uppercase;letter-spacing:.1em;margin-top:4px}
+.section{max-width:1200px;margin:0 auto;padding:80px 24px}
+.section-header{text-align:center;margin-bottom:48px}
+.section-header h2{font-size:clamp(1.4rem,3vw,2.2rem);margin-bottom:8px}
+.section-header p{color:var(--text2);font-size:.95rem}
+.eaco-row{display:flex;justify-content:center;gap:24px;flex-wrap:wrap;margin:40px 0}
+.eaco-letter{width:120px;height:120px;border-radius:20px;display:flex;flex-direction:column;align-items:center;justify-content:center;border:2px solid var(--border);background:var(--card);transition:all .3s;cursor:pointer;position:relative;overflow:hidden}
+.eaco-letter:hover{transform:scale(1.1) rotate(3deg)}
+.eaco-letter:nth-child(1){border-color:var(--primary);background:rgba(16,185,129,.1);box-shadow:0 0 30px rgba(16,185,129,.15)}
+.eaco-letter:nth-child(2){border-color:var(--accent);background:rgba(6,182,212,.1);box-shadow:0 0 30px rgba(6,182,212,.15)}
+.eaco-letter:nth-child(3){border-color:var(--gold);background:rgba(245,158,11,.1);box-shadow:0 0 30px rgba(245,158,11,.15)}
+.eaco-letter:nth-child(4){border-color:var(--purple);background:rgba(139,92,246,.1);box-shadow:0 0 30px rgba(139,92,246,.15)}
+.eaco-letter .letter{font-size:3rem;font-weight:800}
+.eaco-letter:nth-child(1) .letter{color:var(--primary)}
+.eaco-letter:nth-child(2) .letter{color:var(--accent2)}
+.eaco-letter:nth-child(3) .letter{color:var(--gold2)}
+.eaco-letter:nth-child(4) .letter{color:var(--purple2)}
+.eaco-letter .word{font-size:.7rem;color:var(--text2);margin-top:4px;text-align:center}
+.card-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:20px}
+.info-card{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:28px;transition:all .3s;position:relative;overflow:hidden}
+.info-card:hover{border-color:var(--primary);transform:translateY(-4px);box-shadow:0 12px 40px rgba(16,185,129,.1)}
+.info-card .icon{font-size:2rem;margin-bottom:12px}
+.info-card h3{font-size:1.1rem;margin-bottom:8px;color:var(--text)}
+.info-card p{font-size:.85rem;color:var(--text2)}
+.dim-card{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:20px;transition:all .2s;text-align:center}
+.dim-card:hover{border-color:var(--accent);background:var(--card2)}
+.dim-card .dim-name{font-size:.85rem;color:var(--primary);font-weight:600;margin-bottom:12px}
+.dim-letters{display:flex;justify-content:center;gap:6px;flex-wrap:wrap}
+.dim-letters span{padding:3px 8px;border-radius:5px;font-size:.72rem;font-weight:600}
+.dim-e{background:rgba(16,185,129,.12);color:var(--primary)}
+.dim-a{background:rgba(6,182,212,.12);color:var(--accent2)}
+.dim-c{background:rgba(245,158,11,.12);color:var(--gold2)}
+.dim-o{background:rgba(139,92,246,.12);color:var(--purple2)}
+.links-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:16px}
+.link-card{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:20px;text-decoration:none;transition:all .2s;display:flex;align-items:center;gap:12px}
+.link-card:hover{border-color:var(--primary);transform:translateY(-2px);background:var(--card2)}
+.link-card .link-icon{font-size:1.5rem}
+.link-card .link-text{flex:1}
+.link-card .link-title{font-size:.9rem;color:var(--text);font-weight:600}
+.link-card .link-url{font-size:.7rem;color:var(--text3);margin-top:2px;word-break:break-all}
+.dex-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:16px}
+.dex-card{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:24px;transition:all .2s;text-decoration:none}
+.dex-card:hover{border-color:var(--gold);transform:translateY(-2px)}
+.dex-card .dex-name{font-size:1rem;font-weight:700;color:var(--gold);margin-bottom:6px}
+.dex-card .dex-pair{font-size:.8rem;color:var(--text2);margin-bottom:8px}
+.dex-card .dex-link{font-size:.7rem;color:var(--text3);word-break:break-all}
+.tg-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:16px}
+.tg-card{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:20px;text-decoration:none;transition:all .2s;display:flex;align-items:center;gap:12px}
+.tg-card:hover{border-color:var(--accent);transform:translateY(-2px)}
+.tg-flag{font-size:1.8rem}
+.tg-info{flex:1}
+.tg-name{font-size:.9rem;color:var(--text);font-weight:600}
+.tg-handle{font-size:.72rem;color:var(--text3)}
+.roadmap{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:16px}
+.roadmap-item{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:24px;text-align:center;transition:all .2s;position:relative}
+.roadmap-item:hover{border-color:var(--primary);transform:translateY(-4px)}
+.roadmap-item .phase{font-size:.7rem;color:var(--primary);font-weight:600;text-transform:uppercase;letter-spacing:.1em}
+.roadmap-item h4{font-size:1rem;margin:8px 0}
+.roadmap-item p{font-size:.78rem;color:var(--text2)}
+.roadmap-item.done{border-color:var(--primary)}
+.roadmap-item.done .phase:after{content:' \2713';color:var(--primary)}
+footer{background:var(--bg2);border-top:1px solid var(--border);padding:48px 24px 24px;margin-top:60px}
+.footer-content{max-width:1200px;margin:0 auto;display:grid;grid-template-columns:1fr 1fr 1fr;gap:32px}
+.footer-col h4{font-size:.9rem;color:var(--text);margin-bottom:12px}
+.footer-col a{display:block;font-size:.8rem;color:var(--text2);text-decoration:none;margin-bottom:6px;transition:color .2s}
+.footer-col a:hover{color:var(--primary)}
+.footer-bottom{text-align:center;margin-top:32px;padding-top:20px;border-top:1px solid var(--border)}
+.footer-bottom p{font-size:.75rem;color:var(--text3)}
+.footer-disclaimer{text-align:center;padding:16px 24px;background:rgba(239,68,68,.06);border-top:1px solid rgba(239,68,68,.2);font-size:.7rem;color:var(--text3);line-height:1.6}
+@media(max-width:768px){header{padding:0 12px;flex-wrap:wrap;height:auto;min-height:60px}nav{gap:2px}nav a{font-size:.75rem;padding:4px 8px}.lang-btns{margin-left:0;margin-top:4px}.footer-content{grid-template-columns:1fr}.stats-bar{gap:20px}.eaco-row{gap:12px}.eaco-letter{width:80px;height:80px}.eaco-letter .letter{font-size:2rem}}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="logo" onclick="scrollToSection('hero')">EACO<span>Earth's Best Coin</span></div>
+  <nav>
+    <a href="index.html" class="back-link">&larr; 百科</a>
+    <a class="active" data-section="hero" onclick="scrollToSection('hero')" id="nav-home">Home</a>
+    <a data-section="about" onclick="scrollToSection('about')" id="nav-about">About</a>
+    <a data-section="dimensions" onclick="scrollToSection('dimensions')" id="nav-dim">EACO</a>
+    <a data-section="ecosystem" onclick="scrollToSection('ecosystem')" id="nav-eco">Ecosystem</a>
+    <a data-section="community" onclick="scrollToSection('community')" id="nav-com">Community</a>
+    <a data-section="dex" onclick="scrollToSection('dex')" id="nav-dex">DEX</a>
+    <div class="lang-btns">
+      <button class="lang-btn active" onclick="setLang('zh')">中文</button>
+      <button class="lang-btn" onclick="setLang('en')">EN</button>
+      <button class="lang-btn" onclick="setLang('ja')">日本語</button>
+      <button class="lang-btn" onclick="setLang('ko')">한국어</button>
+      <button class="lang-btn" onclick="setLang('vi')">Vi</button>
+      <button class="lang-btn" onclick="setLang('ms')">MS</button>
+      <button class="lang-btn" onclick="setLang('es')">ES</button>
+      <button class="lang-btn" onclick="setLang('fr')">FR</button>
+      <button class="lang-btn" onclick="setLang('ar')">عرب</button>
+      <button class="lang-btn" onclick="setLang('ru')">RU</button>
+    </div>
+  </nav>
+</header>
+
+<section class="hero" id="hero">
+  <div class="hero-badge" id="eaco-badge">SOL Chain - AI + RWA + Web3</div>
+  <h1>EACO</h1>
+  <div class="hero-sub" id="eaco-fullname">Earth's Best Coin</div>
+  <p class="hero-desc" id="eaco-tagline">Earth's top-tier AI + RWA + Web3 crypto asset</p>
+  <div class="hero-ca">
+    <div class="hero-ca-label" id="ca-label">Contract Address (SOL)</div>
+    <div class="hero-ca-value">DqfoyZH96RnvZusSp3Cdncjpyp3C74ZmJzGhjmHnDHRH</div>
+  </div>
+  <div class="hero-buttons">
+    <a href="https://raydium.io/swap/?inputMint=sol&outputMint=DqfoyZH96RnvZusSp3Cdncjpyp3C74ZmJzGhjmHnDHRH" target="_blank" class="btn-primary" id="btn-trade">Trade on Raydium</a>
+    <a href="https://solscan.io/token/DqfoyZH96RnvZusSp3Cdncjpyp3C74ZmJzGhjmHnDHRH" target="_blank" class="btn-secondary" id="btn-scan">View on Solscan</a>
+  </div>
+</section>
+
+<div class="stats-bar">
+  <div class="stat-item"><div class="stat-num">1.35B</div><div class="stat-label" id="stat-supply">Total Supply</div></div>
+  <div class="stat-item"><div class="stat-num">SOL</div><div class="stat-label" id="stat-chain">Blockchain</div></div>
+  <div class="stat-item"><div class="stat-num">7+</div><div class="stat-label" id="stat-lang">Languages</div></div>
+  <div class="stat-item"><div class="stat-num">3</div><div class="stat-label" id="stat-dex">DEX Pools</div></div>
+  <div class="stat-item"><div class="stat-num">10+</div><div class="stat-label" id="stat-industry">Industries</div></div>
+</div>
+
+<section class="section" id="about">
+  <div class="section-header">
+    <h2 id="about-title">EACO Definition</h2>
+    <p id="about-subtitle">EACO = Positive Energy x Positive Mindset x Global Collaboration x Continuous Optimization</p>
+  </div>
+  <div class="eaco-row">
+    <div class="eaco-letter"><div class="letter">E</div><div class="word" id="def-e">Energy</div></div>
+    <div class="eaco-letter"><div class="letter">A</div><div class="word" id="def-a">Attitude</div></div>
+    <div class="eaco-letter"><div class="letter">C</div><div class="word" id="def-c">Cooperation</div></div>
+    <div class="eaco-letter"><div class="letter">O</div><div class="word" id="def-o">Optimization</div></div>
+  </div>
+  <div class="card-grid" id="goals-grid"></div>
+</section>
+
+<section class="section" id="dimensions">
+  <div class="section-header">
+    <h2 id="dim-title">EACO Multi-Dimensions</h2>
+    <p id="dim-subtitle">Four letters spanning 28 knowledge domains</p>
+  </div>
+  <div class="card-grid" id="dim-grid"></div>
+</section>
+
+<section class="section" id="ecosystem">
+  <div class="section-header">
+    <h2 id="eco-title">10 Core Industries</h2>
+    <p id="eco-subtitle">Green demand + traffic gateway + value loop + global scenarios</p>
+  </div>
+  <div class="card-grid" id="eco-grid"></div>
+</section>
+
+<section class="section" id="dex">
+  <div class="section-header">
+    <h2 id="dex-title">DEX Liquidity</h2>
+    <p id="dex-subtitle">Three decentralized exchanges - fully on-chain transparent</p>
+  </div>
+  <div class="dex-grid">
+    <a href="https://raydium.io/swap/?inputMint=sol&outputMint=DqfoyZH96RnvZusSp3Cdncjpyp3C74ZmJzGhjmHnDHRH" target="_blank" class="dex-card">
+      <div class="dex-name">Raydium</div>
+      <div class="dex-pair" id="dex1-pair">E-SOL Native Pool</div>
+      <div class="dex-link">raydium.io/swap</div>
+    </a>
+    <a href="https://app.meteora.ag/dlmm/6ZfCi3qzhgDN1ygHVYXvfsfrwz8ZhQ7hD5mJtjeuUDyE" target="_blank" class="dex-card">
+      <div class="dex-name">Meteora DLMM</div>
+      <div class="dex-pair" id="dex2-pair">E-USDT Stablecoin Pool</div>
+      <div class="dex-link">app.meteora.ag/dlmm</div>
+    </a>
+    <a href="https://www.orca.so/pools/6GDJvBhq9NY4Tcry8rsCVU4RTd8tzjUQCANvHngjK7jw" target="_blank" class="dex-card">
+      <div class="dex-name">Orca</div>
+      <div class="dex-pair" id="dex3-pair">Reserve Depth Pool</div>
+      <div class="dex-link">orca.so/pools</div>
+    </a>
+  </div>
+</section>
+
+<section class="section" id="community">
+  <div class="section-header">
+    <h2 id="com-title">Global Community</h2>
+    <p id="com-subtitle">7 language Telegram groups - Earth Village consensus</p>
+  </div>
+  <div class="tg-grid">
+    <a href="https://t.me/e_eacocc" target="_blank" class="tg-card"><div class="tg-flag">GB</div><div class="tg-info"><div class="tg-name">English</div><div class="tg-handle">@e_eacocc</div></div></a>
+    <a href="https://t.me/aieaco" target="_blank" class="tg-card"><div class="tg-flag">CN</div><div class="tg-info"><div class="tg-name">Chinese</div><div class="tg-handle">@aieaco</div></div></a>
+    <a href="https://t.me/earhcoingroup" target="_blank" class="tg-card"><div class="tg-flag">SA</div><div class="tg-info"><div class="tg-name">Arabic</div><div class="tg-handle">@earhcoingroup</div></div></a>
+    <a href="https://t.me/eacoespanish" target="_blank" class="tg-card"><div class="tg-flag">ES</div><div class="tg-info"><div class="tg-name">Spanish</div><div class="tg-handle">@eacoespanish</div></div></a>
+    <a href="https://t.me/efrencheaco" target="_blank" class="tg-card"><div class="tg-flag">FR</div><div class="tg-info"><div class="tg-name">French</div><div class="tg-handle">@efrencheaco</div></div></a>
+    <a href="https://t.me/erussianeaco" target="_blank" class="tg-card"><div class="tg-flag">RU</div><div class="tg-info"><div class="tg-name">Russian</div><div class="tg-handle">@erussianeaco</div></div></a>
+    <a href="https://t.me/ejapaneaco" target="_blank" class="tg-card"><div class="tg-flag">JP</div><div class="tg-info"><div class="tg-name">Japan/Korea/SEA</div><div class="tg-handle">@ejapaneaco</div></div></a>
+  </div>
+</section>
+
+<section class="section">
+  <div class="section-header">
+    <h2 id="road-title">Roadmap</h2>
+    <p id="road-subtitle">From e-consensus to e-civilization</p>
+  </div>
+  <div class="roadmap" id="roadmap-grid"></div>
+</section>
+
+<section class="section">
+  <div class="section-header">
+    <h2 id="links-title">Official Links</h2>
+    <p id="links-subtitle">All on-chain verifiable - no fake tokens</p>
+  </div>
+  <div class="links-grid">
+    <a href="https://linktr.ee/eacocc" target="_blank" class="link-card"><div class="link-icon">Link</div><div class="link-text"><div class="link-title">Linktree</div><div class="link-url">linktr.ee/eacocc</div></div></a>
+    <a href="https://x.com/eacocc" target="_blank" class="link-card"><div class="link-icon">X</div><div class="link-text"><div class="link-title">Twitter / X</div><div class="link-url">x.com/eacocc</div></div></a>
+    <a href="https://solscan.io/token/DqfoyZH96RnvZusSp3Cdncjpyp3C74ZmJzGhjmHnDHRH" target="_blank" class="link-card"><div class="link-icon">Scan</div><div class="link-text"><div class="link-title">Solscan</div><div class="link-url">solscan.io/token</div></div></a>
+    <a href="https://www.oklink.com/solana/token/DqfoyZH96RnvZusSp3Cdncjpyp3C74ZmJzGhjmHnDHRH" target="_blank" class="link-card"><div class="link-icon">OK</div><div class="link-text"><div class="link-title">OKlink</div><div class="link-url">oklink.com/solana</div></div></a>
+    <a href="https://eaco-build-world.base44.app/" target="_blank" class="link-card"><div class="link-icon">Web</div><div class="link-text"><div class="link-title">EACO Platform</div><div class="link-url">eaco-build-world.base44.app</div></div></a>
+    <a href="https://orbmarkets.io/token/DqfoyZH96RnvZusSp3Cdncjpyp3C74ZmJzGhjmHnDHRH" target="_blank" class="link-card"><div class="link-icon">Orb</div><div class="link-text"><div class="link-title">Orb Markets</div><div class="link-url">orbmarkets.io/token</div></div></a>
+  </div>
+</section>
+
+<div class="footer-disclaimer" id="disclaimer">
+  Risk Warning: Cryptocurrency investment involves high risk. This page is for informational purposes only and does not constitute investment advice.
+</div>
+
+<footer>
+  <div class="footer-content">
+    <div class="footer-col">
+      <h4 id="footer-about">About EACO</h4>
+      <a href="#about" id="footer-about-1">Definition</a>
+      <a href="#dimensions" id="footer-about-2">Multi-Dimensions</a>
+      <a href="#ecosystem" id="footer-about-3">Industries</a>
+    </div>
+    <div class="footer-col">
+      <h4 id="footer-resources">Resources</h4>
+      <a href="#dex" id="footer-res-1">DEX Pools</a>
+      <a href="#community" id="footer-res-2">Community</a>
+      <a href="index.html" id="footer-res-3">Earth Encyclopedia</a>
+    </div>
+    <div class="footer-col">
+      <h4 id="footer-links-col">Links</h4>
+      <a href="https://linktr.ee/eacocc" target="_blank">Linktree</a>
+      <a href="https://x.com/eacocc" target="_blank">Twitter / X</a>
+      <a href="https://eaco-build-world.base44.app/" target="_blank">EACO Platform</a>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <p>(c) 2026 EACO - Earth's Best Coin - SOL Chain</p>
+    <p style="margin-top:4px;color:var(--text2)">CA: DqfoyZH96RnvZusSp3Cdncjpyp3C74ZmJzGhjmHnDHRH</p>
+  </div>
+</footer>
+
+<script src="eaco-data.js"></script>
+<script src="eaco-i18n.js"></script>
+</body>
+</html>
