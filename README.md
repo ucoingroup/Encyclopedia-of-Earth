@@ -39,3 +39,6 @@ Improve organizational efficiency
 Advance social civilization
 Promote sustainable development of the Earth
 Integrate with 100 cognitive models
+
+
+email: eaco2cc@gmail.com
